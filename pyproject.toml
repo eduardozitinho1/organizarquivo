@@ -1,13 +1,13 @@
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "organizarquivo"
-version = "0.1.0"
+version = "0.1.1"
 description = "Organize files automatically into folders based on their extensions."
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
     { name = "Eduardo" }
@@ -26,9 +26,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -38,8 +35,24 @@ classifiers = [
 ]
 dependencies = []
 
-[project.scripts]
-organizarquivo = "main:main"
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "build>=1",
+    "twine>=5"
+]
 
-[tool.setuptools]
-py-modules = ["main"]
+[project.scripts]
+organizarquivo = "organizarquivo.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/eduardozitinho1/organizarquivo"
+Repository = "https://github.com/eduardozitinho1/organizarquivo"
+Issues = "https://github.com/eduardozitinho1/organizarquivo/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
