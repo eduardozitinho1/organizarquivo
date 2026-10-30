@@ -35,8 +35,7 @@ def test_git_repository_preserved(tmp_path):
 
     assert (tmp_path / ".git" / "HEAD").exists()
     assert (tmp_path / ".git" / "config").exists()
-    # README.md nao esta em nenhuma categoria conhecida, entao vai para Others
-    assert (tmp_path / "Others" / "README.md").exists()
+    assert (tmp_path / "Documents" / "README.md").exists()
     assert not (tmp_path / "README.md").exists()
     assert (tmp_path / "Images" / "foto.jpg").exists()
 
@@ -103,7 +102,10 @@ def test_main_dry_run_does_not_move(tmp_path, capsys):
     assert code == 0
     captured = capsys.readouterr()
     assert "[dry-run]" in captured.out
-    assert "foto.jpg -> Images/" in captured.out
+    assert "Images/" in captured.out
+    assert "foto.jpg" in captured.out
+    assert "Documents/" in captured.out
+    assert "doc.pdf" in captured.out
     assert (tmp_path / "foto.jpg").exists()
     assert (tmp_path / "doc.pdf").exists()
     assert not (tmp_path / "Images").exists()
@@ -136,11 +138,11 @@ def test_main_unknown_option_returns_1(capsys):
     code = main(["--bogus"])
     assert code == 1
     captured = capsys.readouterr()
-    assert "Opcao desconhecida" in captured.err
+    assert "opcao desconhecida" in captured.err
 
 
 def test_main_help_returns_0(capsys):
     code = main(["--help"])
     assert code == 0
     captured = capsys.readouterr()
-    assert "Uso: organizarquivo" in captured.out
+    assert "uso:" in captured.out

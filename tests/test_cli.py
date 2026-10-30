@@ -4,7 +4,7 @@ from organizarquivo.cli import main
 def test_main_without_args_returns_1(capsys):
     assert main([]) == 1
     captured = capsys.readouterr()
-    assert "Uso" in captured.err
+    assert "uso:" in captured.err
 
 
 def test_main_with_two_args_returns_1():

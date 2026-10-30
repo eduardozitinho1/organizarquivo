@@ -113,7 +113,7 @@ def test_organize_when_target_is_a_file(tmp_path):
         organize(file)
 
 
-def test_main_py_is_treated_like_any_other_file(tmp_path):
+def test_py_files_go_to_code(tmp_path):
     (tmp_path / "main.py").write_bytes(b"x")
     organize(tmp_path, confirm=False)
-    assert (tmp_path / "Others" / "main.py").exists()
+    assert (tmp_path / "Code" / "main.py").exists()

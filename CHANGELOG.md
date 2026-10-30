@@ -3,6 +3,42 @@
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 versionamento em [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [0.2.0] - 2026-10-30
+
+### Adicionado
+
+- **Desfazer**: cada execucao grava um historico em
+  `~/.cache/organizarquivo/history/`. `organizarquivo undo` reverte a
+  ultima operacao. `organizarquivo undo --list` mostra as recentes.
+  `organizarquivo undo <id>` reverte uma especifica.
+- **Categorias expandidas**: Archives, Code, Books, Fonts, 3D, Design,
+  Presentations, Executables e Databases. Extensoes adicionais em
+  Images, Videos, Audios, Documents, Spreadsheets.
+- **`--recursive`**: organiza subpastas, pulando diretorios de
+  infraestrutura e pastas de categoria.
+- **`--exclude GLOB`**: ignora arquivos que casem com o padrao. Pode
+  ser repetido.
+- **`--stats`**: ao final, mostra contagem, tamanho por categoria e os
+  maiores arquivos movidos.
+- **Barra de progresso** em TTY quando ha mais de 10 arquivos.
+- **Config file** `~/.organizarquivo.toml` para categorias customizadas,
+  exclusoes e comportamento.
+
+### Alterado
+
+- Projeto reorganizado em modulos: `categories`, `config`, `history`,
+  `organizer`, `ui`, `cli`.
+- Saida do `--dry-run` mostra a arvore prevista por categoria, com
+  tamanho por arquivo.
+- Depois de organizar, a CLI sugere o comando de undo.
+- `requires-python` foi mantido em `>=3.9`; `tomli` e dependencia
+  condicional apenas em Python 3.9 e 3.10.
+
+### Notas
+
+- Compatibilidade: `organize()` e `main()` mantem assinatura da 0.1.x.
+- O historico e limitado a 50 entradas por cache.
+
 ## [0.1.3] - 2026-10-30
 
 ### Corrigido
