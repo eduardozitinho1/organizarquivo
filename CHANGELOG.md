@@ -3,6 +3,23 @@
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 versionamento em [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [0.1.2] - 2026-10-30
+
+### Alterado
+
+- Metadata do pacote migrada para SPDX: `license = "MIT"` e
+  `license-files = ["LICENSE"]` no `pyproject.toml`.
+- Classifier `License :: OSI Approved :: MIT License` removido. A
+  expressao SPDX ja cobre essa informacao.
+- `setuptools` minimo passou para `>=77`, a primeira versao que aceita
+  o formato SPDX.
+
+### Notas
+
+- Sem mudanca de comportamento. `uv build` roda sem warnings de
+  deprecacao, e o `License-Expression` aparece corretamente no
+  `METADATA` do wheel.
+
 ## [0.1.1] - 2026-10-30
 
 ### Corrigido
