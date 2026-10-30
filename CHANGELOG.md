@@ -3,6 +3,25 @@
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 versionamento em [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [0.1.3] - 2026-10-30
+
+### Corrigido
+
+- Pastas ocultas e de infraestrutura (`.git`, `.venv`, `node_modules`,
+  `__pycache__`, `target`, `build`, `dist`, e outras) nao sao mais
+  varridas. Rodar `organizarquivo` na raiz de um repositorio git nao
+  destroi mais o `.git`.
+- Arquivos dentro de subpastas nao sao mais movidos por padrao. Apenas
+  os arquivos da raiz da pasta alvo sao organizados.
+- Arquivos dentro de uma pasta de categoria nao sao reorganizados quando
+  o comando roda pela segunda vez.
+
+### Adicionado
+
+- Confirmacao interativa antes de mover arquivos. `-y` / `--yes` pula.
+- `--dry-run` mostra o que seria movido, sem mover nada.
+- Aviso em stderr quando a pasta alvo e um repositorio git.
+
 ## [0.1.2] - 2026-10-30
 
 ### Alterado

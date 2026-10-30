@@ -44,7 +44,7 @@ def test_organize_moves_each_extension(tmp_path):
     (tmp_path / "plan.xlsx").write_bytes(b"e")
     (tmp_path / "arquivo.iso").write_bytes(b"f")
 
-    result = organize(tmp_path)
+    result = organize(tmp_path, confirm=False)
 
     assert (tmp_path / "Documents" / "doc.pdf").exists()
     assert (tmp_path / "Images" / "img.jpg").exists()
@@ -57,17 +57,20 @@ def test_organize_moves_each_extension(tmp_path):
 
 
 def test_organize_does_not_overwrite(tmp_path):
-    (tmp_path / "a").mkdir()
-    (tmp_path / "b").mkdir()
-    (tmp_path / "a" / "foto.jpg").write_bytes(b"primeiro")
-    (tmp_path / "b" / "foto.jpg").write_bytes(b"segundo")
+    # arquivo ja organizado em Images/, e um novo arquivo com mesmo nome na raiz
+    (tmp_path / "Images").mkdir()
+    (tmp_path / "Images" / "foto.jpg").write_bytes(b"antigo")
+    (tmp_path / "foto.jpg").write_bytes(b"novo")
 
-    organize(tmp_path)
+    organize(tmp_path, confirm=False)
 
-    images = list((tmp_path / "Images").iterdir())
+    images = sorted((tmp_path / "Images").iterdir())
     assert len(images) == 2
-    contents = sorted(p.read_bytes() for p in images)
-    assert contents == [b"primeiro", b"segundo"]
+    names = [p.name for p in images]
+    assert "foto.jpg" in names
+    assert "foto (1).jpg" in names
+    assert (tmp_path / "Images" / "foto.jpg").read_bytes() == b"antigo"
+    assert (tmp_path / "Images" / "foto (1).jpg").read_bytes() == b"novo"
 
 
 def test_organize_skips_files_already_organized(tmp_path):
@@ -75,14 +78,14 @@ def test_organize_skips_files_already_organized(tmp_path):
     (tmp_path / "Documents" / "old.pdf").write_bytes(b"x")
     (tmp_path / "new.jpg").write_bytes(b"y")
 
-    organize(tmp_path)
+    organize(tmp_path, confirm=False)
 
     assert (tmp_path / "Documents" / "old.pdf").exists()
     assert (tmp_path / "Images" / "new.jpg").exists()
 
 
 def test_organize_empty_folder_does_not_create_others(tmp_path):
-    result = organize(tmp_path)
+    result = organize(tmp_path, confirm=False)
     assert result["moved"] == 0
     assert not (tmp_path / "Others").exists()
     assert not (tmp_path / "Documents").exists()
@@ -91,7 +94,7 @@ def test_organize_empty_folder_does_not_create_others(tmp_path):
 def test_organize_only_used_categories_created(tmp_path):
     (tmp_path / "a.pdf").write_bytes(b"x")
 
-    organize(tmp_path)
+    organize(tmp_path, confirm=False)
 
     assert (tmp_path / "Documents").exists()
     assert not (tmp_path / "Images").exists()
@@ -112,5 +115,5 @@ def test_organize_when_target_is_a_file(tmp_path):
 
 def test_main_py_is_treated_like_any_other_file(tmp_path):
     (tmp_path / "main.py").write_bytes(b"x")
-    organize(tmp_path)
+    organize(tmp_path, confirm=False)
     assert (tmp_path / "Others" / "main.py").exists()
